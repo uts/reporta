@@ -20,7 +20,11 @@ describe Reporta::Column do
       expect(@report.columns.length).to eq 1
     end
 
-    it 'sets a custom title'
+    it 'sets a custom title' do
+      DummyReport.column :name, title: 'Full name'
+      report = DummyReport.new
+      expect(report.columns[:name].title).to eq 'Full name'
+    end
 
   end
 end
