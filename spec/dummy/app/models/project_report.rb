@@ -14,7 +14,9 @@ class ProjectReport
   column :active
 
   def records
-    User.all
+    User.where("gender = ? AND
+      age = ? AND
+      active = ? AND
+      first_name = ?", gender, age, active, first_name.downcase)
   end
-
 end

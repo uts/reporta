@@ -3,6 +3,10 @@
   <% @report.filters.each do |name, options| %>
     <div>
       <%= f.label name %>
+
+      <%# TODO: FIX ME - not so many ifs %>
+      <%#= f.input_value_field %>
+
       <% if options.collection %>
         <%= f.select name, options_for_select(options.collection, f.object.send(name)), prompt: options.include_blank %>
       <% elsif options.as == :boolean %>
@@ -13,7 +17,7 @@
     </div>
   <% end %>
 
-  <%= submit_tag %>
+  <%= f.submit %>
 <% end %>
 
 <table>

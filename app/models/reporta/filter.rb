@@ -39,6 +39,7 @@ module Reporta
           all_filters[name.to_sym].default
         end
 
+        # TODO: Please fix me.
         if all_filters[name.to_sym].as == :boolean
           if val == "0"
             val = false
