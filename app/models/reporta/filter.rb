@@ -10,7 +10,7 @@ module Reporta
     module ClassMethods
       def filter(name, options={})
         report_filter = OpenStruct.new(options)
-        report_filter[:include_blank] ||= true
+        report_filter[:include_blank] = report_filter[:include_blank].nil?
         report_filter[:name] ||= name.to_s.humanize
 
         all_filters[name] = report_filter
