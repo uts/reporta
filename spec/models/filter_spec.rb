@@ -2,39 +2,31 @@ require 'spec_helper'
 
 class DummyReport
   include Reporta::Filter
+
+  filter :start_date, default: '2013-01-01'
+  filter :finish_date
+  filter :active, as: :boolean
+  filter :employee_type, required: true
 end
 
 describe Reporta::Filter do
-  it 'initializes filters' do
-    expect { DummyReport.filter :start_date }.to_not raise_error
-  end
-
   context 'with columns defined' do
-    before :each do
-      DummyReport.filter :start_date
-      @report = DummyReport.new
-    end
+    before(:each) { @report = DummyReport.new }
 
     it 'iterates over filters' do
-      expect(@report.filters.length).to eq 1
+      expect(@report.filters.length).to eq 4
     end
 
-    it 'defaults to the filter name' do
-      DummyReport.filter(:start_date, {default: '2013-01-01'})
-      report = DummyReport.new
-      expect(report.filters[:start_date].default).to eq '2013-01-01'
+    it 'defaults to correct date' do
+      expect(@report.filters[:start_date].default).to eq '2013-01-01'
     end
 
-    it 'sets a custom title' do
-      DummyReport.filter :start_date, required: true
-      report = DummyReport.new
-      expect(report.filters[:start_date].required).to eq true
+    it 'accepts boolean column types' do
+      expect(@report.filters[:active].as).to eq :boolean
     end
 
-    it 'sets custom class names' do
-      DummyReport.filter :start_date, as: :boolean
-      report = DummyReport.new
-      expect(report.filters[:start_date].as).to eq :boolean
+    it 'requires columns to be set' do
+      expect(@report.filters[:employee_type].required).to eq true
     end
 
     it "collection - setting a collection will force the filter to render as a select input."
