@@ -20,10 +20,28 @@ describe Reporta::Column do
       expect(@report.columns.length).to eq 1
     end
 
+    it 'defaults to the column name' do
+      DummyReport.column :full_name
+      report = DummyReport.new
+      expect(report.columns[:full_name].title).to eq 'Full name'
+    end
+
     it 'sets a custom title' do
       DummyReport.column :name, title: 'Full name'
       report = DummyReport.new
       expect(report.columns[:name].title).to eq 'Full name'
+    end
+
+    it 'defaults class names to an empty string' do
+      DummyReport.column :name
+      report = DummyReport.new
+      expect(report.columns[:name].class_names).to eq ''
+    end
+
+    it 'sets custom class names' do
+      DummyReport.column :name, class_names: 'foo bar'
+      report = DummyReport.new
+      expect(report.columns[:name].class_names).to eq 'foo bar'
     end
 
   end
