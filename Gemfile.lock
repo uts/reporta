@@ -5,7 +5,7 @@ PATH
       rails (~> 4.0.0.rc1)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.railscamp.org/
   specs:
     actionmailer (4.0.0.rc1)
       actionpack (= 4.0.0.rc1)
