@@ -1,0 +1,13 @@
+<h2> <%= @report %> </h2>
+
+<%= form_tag request.path do |f| %>
+
+  <% @report.filters.each do |name, options| %>
+    <div>
+      <%= label_tag name %>
+      <%= text_field_tag "report[#{name}]" %>
+    </div>
+  <% end %>
+
+  <%= submit_tag %>
+<% end %>

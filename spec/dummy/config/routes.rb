@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
-
-  mount Reporta::Engine => "/reporta"
+  resources :reports
+  resources :forms
+  root to: "reports#index"
 end

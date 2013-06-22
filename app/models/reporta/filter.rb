@@ -20,5 +20,18 @@ module Reporta
     def filters
       all_filters
     end
+
+    def initialize(args={})
+      self.all_filters.each do |name, options|
+        # self.form.class.send(:define_method, name) do
+        #   instance_variable_get("@#{name}")
+        # end
+
+        # self.form.class.send(:define_method, "#{name}=") do
+        #   instance_variable_set("@#{name}", args[name])
+        # end
+      end
+    end
+
   end
 end
