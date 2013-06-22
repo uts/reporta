@@ -42,4 +42,12 @@ describe Reporta::Filter do
       expect(abc.errors[:start_date]).to eq "Can't be blank"
     end
   end
+
+  it "required - set to true to force a field to be set. Defaults to false."
+  it "default - set the default value for the filter."
+  
+  it "collection - setting a collection will force the filter to render as a select input."
+  it "include_blank - only has an affect if a collection is set. defaults to true."
+  it "as - set the type of field to render. Available values are :boolean, :string, :check_boxes, :radio. Defaults to :string."
+
 end
