@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Reporta
   module Filter
     extend ActiveSupport::Concern
@@ -5,50 +7,50 @@ module Reporta
     attr_accessor :form
 
     included do
-      cattr_accessor :all_filters
-      self.all_filters = {}
+      cattr_accessor :filters
+      self.filters = {}
     end
 
     module ClassMethods
       def filter(name, options={})
-        options.reverse_merge!({
+        filters[name] = OpenStruct.new(options.reverse_merge!({
           include_blank: options[:include_blank].nil?,
           name: options[:name].to_s.humanize
-        })
-
-        all_filters[name] = OpenStruct.new(options)
+        }))
       end
     end
 
     def initialize(args={})
       args ||= {}
-      @form = Reporta::Form.new all_filters
+      @form = Reporta::Form.new filters
       set_form_values(args)
     end
 
-    def filters
-      all_filters
+    private
+
+    def set_form_values(args)
+      filters.each do |name, value|
+        value = filter_value(args, name)
+        value = convert_boolean(name, value) if filters[name].as == :boolean
+
+        form.send "#{name}=", value
+      end
     end
 
-    private
-    def set_form_values(args)
-      all_filters.each do |name, value|
-        val = if args[name].present?
-          args[name]
-        else
-          all_filters[name.to_sym].default
-        end
+    # TODO: Please fix me.
+    def convert_boolean(name, value)
+      if value == "0"
+        false
+      elsif value == "1"
+        true
+      end
+    end
 
-        # TODO: Please fix me.
-        if all_filters[name.to_sym].as == :boolean
-          if val == "0"
-            val = false
-          elsif val == "1"
-            val = true
-          end
-        end
-
-        form.send "#{name}=", val
+    def filter_value(args, name)
+      val = if args[name].present?
+        args[name]
+      else
+        filters[name.to_sym].default
       end
     end
 

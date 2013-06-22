@@ -10,31 +10,46 @@ class DummyReport
   filter :age, include_blank: false
   filter :be_blank_true
   filter :valid, collection: %w/true false/
+
 end
 
 describe Reporta::Filter do
   context 'with columns defined' do
-    before(:each) { @report = DummyReport.new }
+    subject(:report) { DummyReport.new }
 
     it 'defaults to correct date' do
-      expect(@report.filters[:start_date].default).to eq '2013-01-01'
+      expect(report.filters[:start_date].default).to eq '2013-01-01'
     end
 
     it 'accepts boolean column types' do
-      expect(@report.filters[:active].as).to eq :boolean
+      expect(report.filters[:active].as).to eq :boolean
+    end
+
+    it 'converts boolean "0" to false' do
+      report = DummyReport.new active: '0'
+      expect(report.active).to be_false
+    end
+
+    it 'converts boolean "1" to true' do
+      report = DummyReport.new active: '1'
+      expect(report.active).to be_true
     end
 
     it 'requires columns to be set' do
-      expect(@report.filters[:employee_type].required).to eq true
+      expect(report.filters[:employee_type].required).to eq true
     end
 
     it "allows include_blank to bet set" do
-      expect(@report.filters[:age].include_blank).to eq false
-      expect(@report.filters[:be_blank_true].include_blank).to eq true
+      expect(report.filters[:age].include_blank).to eq false
+      expect(report.filters[:be_blank_true].include_blank).to eq true
     end
 
     it "allows collections to be set" do
-      expect(@report.filters[:valid].collection).to eq %w/true false/
+      expect(report.filters[:valid].collection).to eq %w/true false/
+    end
+
+    it 'sets default values' do
+      expect(report.start_date).to eq '2013-01-01'
     end
   end
 end

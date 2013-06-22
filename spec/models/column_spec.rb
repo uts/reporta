@@ -47,5 +47,6 @@ describe Reporta::Column do
       project = stub(created_at: Date.new(2013, 01, 15))
       expect(report.value_for(project, :formatted_date)).to eq 'Jan 15, 2013'
     end
+
   end
 end
