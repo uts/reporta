@@ -1,0 +1,16 @@
+config/database.yml
+
+.bundle
+.sass-cache/
+.DS_Store
+.*.sw?
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+
+public/assets/**/*
+public/uploads/**/
+db/migrate/
+
+vendor/bundled
