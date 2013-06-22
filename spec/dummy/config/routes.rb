@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :reports
-  resources :forms
   root to: "reports#index"
+  match '/', to: 'reports#index', via: [:get, :post]
 end

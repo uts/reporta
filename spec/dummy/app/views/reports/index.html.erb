@@ -1,13 +1,40 @@
-<h2> <%= @report %> </h2>
-
-<%= form_tag request.path do |f| %>
+<%= form_for @report.form, url: request.path do |f| %>
 
   <% @report.filters.each do |name, options| %>
     <div>
-      <%= label_tag name %>
-      <%= text_field_tag "report[#{name}]" %>
+      <%= f.label name %>
+      <% if options.collection %>
+        <%= f.select name, options_for_select(options.collection, f.object.send(name)), prompt: options.include_blank %>
+      <% elsif options.as == :boolean %>
+        <%= f.check_box name %>
+      <% else %>
+        <%= f.text_field name %>
+      <% end %>
     </div>
   <% end %>
 
   <%= submit_tag %>
 <% end %>
+
+<table>
+  <thead>
+    <tr>
+      <% @report.columns.each do |name, column| %>
+        <th class="#{column.class_names}">
+          <%= column.title %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @report.records.each do |record| %>
+      <tr>
+        <% @report.columns.each do |name, column| %>
+          <td class="#{column.class_names}">
+            <%= @report.value_for(record, name) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

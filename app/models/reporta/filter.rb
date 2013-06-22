@@ -2,6 +2,8 @@ module Reporta
   module Filter
     extend ActiveSupport::Concern
 
+    attr_accessor :form
+
     included do
       cattr_accessor :all_filters
       self.all_filters = {}
@@ -9,28 +11,30 @@ module Reporta
 
     module ClassMethods
       def filter(name, options={})
+        options.reverse_merge!({
+          include_blank: options[:include_blank].nil?,
+          name: options[:name].to_s.humanize
+        })
         report_filter = OpenStruct.new(options)
-        report_filter[:include_blank] = report_filter[:include_blank].nil?
-        report_filter[:name] ||= name.to_s.humanize
-
         all_filters[name] = report_filter
+      end
+    end
+
+    def initialize(args={})
+      args ||= {}
+      @form = Reporta::Form.new all_filters
+      all_filters.each do |name, value|
+        val = if args[name].present?
+          args[name]
+        else
+          all_filters[name.to_sym].default
+        end
+        form.send "#{name}=", val
       end
     end
 
     def filters
       all_filters
-    end
-
-    def initialize(args={})
-      self.all_filters.each do |name, options|
-        # self.form.class.send(:define_method, name) do
-        #   instance_variable_get("@#{name}")
-        # end
-
-        # self.form.class.send(:define_method, "#{name}=") do
-        #   instance_variable_set("@#{name}", args[name])
-        # end
-      end
     end
 
   end
