@@ -1,7 +1,19 @@
 module Reporta
   module Column
     extend ActiveSupport::Concern
-    Struct.new 'ReportColumn', :column_name, :title, :class_names
+
+    class ColumnData
+      attr_accessor :name, :title, :class_names
+
+      def initialize(name, args = {})
+        @name = name
+        @title = args.fetch(:title, name.to_s.humanize)
+        @class_names = args.fetch(:class_names, '')
+      end
+
+      def value(record)
+      end
+    end
 
     included do
       cattr_accessor :all_columns
@@ -10,9 +22,7 @@ module Reporta
 
     module ClassMethods
       def column(name, args = {})
-        title = args.fetch(:title, name.to_s.humanize)
-        class_names = args.fetch(:class_names, '')
-        all_columns[name] = Struct::ReportColumn.new(name, title, class_names)
+        all_columns[name] = ColumnData.new(name, args)
       end
     end
 
