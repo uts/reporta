@@ -33,7 +33,7 @@ end
 ```ruby
 class ProjectReportsController < ApplicationController
   def show
-      @report = ProjectsReport.new(params)
+    @report = ProjectsReport.new(params[:form])
   end
 end
 ```
@@ -42,7 +42,7 @@ end
 
 ```erb
 <%= filters_for @report %>
-<%= data_table_for @report %>
+<%= table_for @report %>
 ```
 
 ## Installation
@@ -126,7 +126,7 @@ class ProjectReport
   column :name
   column :formatted_date, title: 'Created at'
   column :manager, data_chain: 'manager.full_name'
-  column :cost, classes: 'sum currency'
+  column :cost, class_names: 'sum currency'
 
   def records
     Projects.all
@@ -142,7 +142,7 @@ end
 
 * `title` - set a custom title for the colum. Defaults to the column name
 * `data_chain` - provide a chain of methods to call in order to fetch the data.
-* `classes` - these classes will be applied to the column to allow for custom styling or Javascript hooks.
+* `class_names` - these classes will be applied to the column to allow for custom styling or Javascript hooks.
 
 #### Views
 
@@ -176,7 +176,7 @@ Or for more detailed control you can build the table yourself.
   <thead>
   	<tr>
       <% @report.columns.each do |column| %>
-        <th class="#{column.classes}">
+        <th class="#{column.class_names}">
        	  <%= column.title %>
         </th>
       <% end %>
@@ -186,7 +186,7 @@ Or for more detailed control you can build the table yourself.
     <% @report.records.each do |record| %>
       <tr>
         <% @report.columns.each do |column| %>
-          <th class="#{column.classes}">
+          <th class="#{column.class_names}">
          	  <%= column.value_for(record, column) %>
           </th>
         <% end %>
