@@ -187,7 +187,7 @@ Or for more detailed control you can build the table yourself.
       <tr>
         <% @report.columns.each do |column| %>
           <th class="#{column.class_names}">
-         	  <%= @report.value_for(record, column) %>
+            <%= @report.value_for(record, column) %>
           </th>
         <% end %>
       </tr>
