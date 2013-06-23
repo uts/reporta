@@ -9,7 +9,7 @@
 
       <% if options.collection %>
         <%= f.select name, options_for_select(options.collection, f.object.send(name)), prompt: options.include_blank %>
-      <% elsif options.as == :boolean %>
+      <% elsif options.boolean? %>
         <%= f.check_box name %>
       <% else %>
         <%= f.text_field name %>

@@ -15,7 +15,8 @@ module Reporta
       def filter(name, options={})
         filters[name] = OpenStruct.new(options.reverse_merge!({
           include_blank: options[:include_blank].nil?,
-          name: options[:name].to_s.humanize
+          name: options[:name].to_s.humanize,
+          'boolean?' => (options[:as] == :boolean)
         }))
       end
     end
@@ -30,7 +31,7 @@ module Reporta
     def set_form_values(args)
       filters.each do |name, value|
         value = filter_value(args, name)
-        value = convert_boolean(name, value) if filters[name].as == :boolean
+        value = convert_boolean(name, value) if filters[name].boolean?
 
         form.send "#{name}=", value
       end
