@@ -16,10 +16,10 @@ class ProjectReport
   column :created
 
   def records
-    User.where("gender = ? AND
-      age = ? AND
-      active = ? AND
-      first_name = ?", gender, age, active, first_name.downcase)
+    User.where(gender: gender)
+      .where(age: age)
+      .where(active: active)
+      .where(first_name: first_name.downcase)
   end
 
   def created(user)
