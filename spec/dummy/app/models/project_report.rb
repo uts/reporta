@@ -8,7 +8,7 @@ class ProjectReport
 
   column :first_name
   column :last_name
-  column :age
+  column :age, class_names: 'highlight'
   column :gender
   column :active, title: 'Enabled'
   column :account, data_chain: 'account.name'

@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <% report.columns.each do |name, column| %>
-        <th class="#{column.class_names}">
+        <th class="<%= column.class_names %>">
           <%= column.title %>
         </th>
       <% end %>
@@ -12,7 +12,7 @@
     <% report.records.each do |record| %>
       <tr>
         <% report.columns.each do |name, column| %>
-          <td class="#{column.class_names}">
+          <td class="<%= column.class_names %>">
             <%= report.value_for(record, name) %>
           </td>
         <% end %>
