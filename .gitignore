@@ -15,3 +15,5 @@ public/uploads/**/
 db/migrate/
 
 vendor/bundled
+
+/spec/dummy/tmp/pids/server.pid
