@@ -4,4 +4,5 @@ class ReportsController < ApplicationController
     @report = ProjectReport.new(params[:form])
     render :index
   end
+
 end
