@@ -11,12 +11,18 @@ class ProjectReport
   column :last_name
   column :age
   column :gender
-  column :active
+  column :active, title: 'Enabled'
+  column :account, data_chain: 'account.name'
+  column :created
 
   def records
     User.where("gender = ? AND
       age = ? AND
       active = ? AND
       first_name = ?", gender, age, active, first_name.downcase)
+  end
+
+  def created(user)
+    user.created_at.strftime("%b %d, %Y")
   end
 end

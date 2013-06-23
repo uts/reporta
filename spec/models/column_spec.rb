@@ -8,6 +8,7 @@ class DummyReport
   column :full_name, class_names: 'foo bar'
   column :date, title: 'Completed at'
   column :formatted_date
+  column :customer_name, data_chain: 'customer.name'
 
   def formatted_date(project)
     project.created_at.strftime("%b %d, %Y")
@@ -22,10 +23,6 @@ describe Reporta::Column do
 
   context 'with columns defined' do
     subject(:report) { DummyReport.new }
-
-    it 'iterates over columns' do
-      expect(report.columns.length).to eq 4
-    end
 
     it 'defaults to the column name' do
       expect(report.columns[:full_name].title).to eq 'Full name'
@@ -48,6 +45,13 @@ describe Reporta::Column do
       expect(
         report.value_for(project, :formatted_date)
       ).to eq 'Jan 15, 2013'
+    end
+
+    it 'uses a chain of methods of fetch the value' do
+      customer = stub(name: 'World Co.')
+      project = stub(customer: customer, name: 'project')
+      expect(report.value_for(project, :customer_name))
+        .to eq 'World Co.'
     end
 
   end
