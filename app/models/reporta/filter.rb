@@ -25,10 +25,11 @@ module Reporta
       args ||= {}
       @form = Reporta::Form.new filters
       set_form_values(args)
-      @form.valid?
+      form.valid? if args.present?
     end
 
     private
+
     def set_form_values(args)
       filters.each do |name, value|
         value = filter_value(args, name)
