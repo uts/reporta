@@ -1,10 +1,9 @@
-<%= report.form.errors.full_messages %>
 <%= form_for report.form, url: request.path do |f| %>
 
   <% report.filters.each do |name, options| %>
     <div>
       <% if options.required %>
-        *
+        <span class='required'>*</span>
       <% end %>
       <%= f.label name %>
 
@@ -17,6 +16,9 @@
         <%= f.check_box name %>
       <% else %>
         <%= f.text_field name %>
+      <% end %>
+      <% if report.form.errors[name].any? %>
+        <%= report.form.errors[name].to_sentence %>
       <% end %>
     </div>
   <% end %>
