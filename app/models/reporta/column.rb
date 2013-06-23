@@ -5,15 +5,15 @@ module Reporta
     extend ActiveSupport::Concern
 
     included do
-      cattr_accessor :all_columns
-      self.all_columns = {}
+      cattr_accessor :columns
+      self.columns = {}
     end
 
     module ClassMethods
       def column(name, args = {})
         args[:title] ||= name.to_s.humanize
         args[:class_names] ||= ''
-        all_columns[name] = OpenStruct.new(args)
+        columns[name] = OpenStruct.new(args)
       end
     end
 
@@ -23,10 +23,6 @@ module Reporta
       else
         record.send column_name
       end
-    end
-
-    def columns
-      all_columns
     end
 
   end
