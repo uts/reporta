@@ -1,0 +1,21 @@
+<%= form_for report.form, url: request.path do |f| %>
+
+  <% report.filters.each do |name, options| %>
+    <div>
+      <%= f.label name %>
+
+      <%# TODO: FIX ME - not so many ifs %>
+      <%#= f.input_value_field %>
+
+      <% if options.collection %>
+        <%= f.select name, options_for_select(options.collection, f.object.send(name)), prompt: options.include_blank %>
+      <% elsif options.as == :boolean %>
+        <%= f.check_box name %>
+      <% else %>
+        <%= f.text_field name %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>

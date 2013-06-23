@@ -45,7 +45,9 @@ describe Reporta::Column do
 
     it 'returns the value using a local method' do
       project = stub(created_at: Date.new(2013, 01, 15))
-      expect(report.value_for(project, :formatted_date)).to eq 'Jan 15, 2013'
+      expect(
+        report.value_for(project, :formatted_date)
+      ).to eq 'Jan 15, 2013'
     end
 
   end

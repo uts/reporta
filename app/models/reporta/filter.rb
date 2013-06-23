@@ -27,7 +27,6 @@ module Reporta
     end
 
     private
-
     def set_form_values(args)
       filters.each do |name, value|
         value = filter_value(args, name)
