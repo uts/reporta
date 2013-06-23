@@ -3,7 +3,7 @@ class ProjectReport
 
   filter :first_name, default: "Garrett"
   filter :last_name
-  filter :age
+  filter :age, required: true
   filter :gender, collection: %w/MALE FEMALE/, include_blank: false
   filter :active, as: :boolean
 

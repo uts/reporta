@@ -25,6 +25,7 @@ module Reporta
       args ||= {}
       @form = Reporta::Form.new filters
       set_form_values(args)
+      @form.valid?
     end
 
     private

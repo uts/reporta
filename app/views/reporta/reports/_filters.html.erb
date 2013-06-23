@@ -1,7 +1,11 @@
+<%= report.form.errors.full_messages %>
 <%= form_for report.form, url: request.path do |f| %>
 
   <% report.filters.each do |name, options| %>
     <div>
+      <% if options.required %>
+        *
+      <% end %>
       <%= f.label name %>
 
       <%# TODO: FIX ME - not so many ifs %>
