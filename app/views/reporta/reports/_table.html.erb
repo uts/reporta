@@ -13,7 +13,11 @@
       <tr>
         <% report.columns.each do |name, column| %>
           <td class="<%= column.class_names %>">
-            <%= report.value_for(record, name) %>
+            <% if column.helper %>
+              <%= send(column.helper, record) %>
+            <% else %>
+              <%= report.value_for(record, name) %>
+            <% end %>
           </td>
         <% end %>
       </tr>

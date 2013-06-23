@@ -6,7 +6,7 @@ class ProjectReport
   filter :gender, collection: %w/MALE FEMALE/, include_blank: false
   filter :active, as: :boolean
 
-  column :first_name
+  column :first_name, helper: :mailto
   column :last_name
   column :age, class_names: 'highlight'
   column :gender

@@ -9,6 +9,7 @@ class DummyReport
   column :date, title: 'Completed at'
   column :formatted_date
   column :customer_name, data_chain: 'customer.name'
+  column :email_customer, helper: :customer_email_link
 
   def formatted_date(project)
     project.created_at.strftime("%b %d, %Y")
@@ -52,6 +53,10 @@ describe Reporta::Column do
       project = stub(customer: customer, name: 'project')
       expect(report.value_for(project, :customer_name))
         .to eq 'World Co.'
+    end
+
+    it 'sets a custom helper' do
+      expect(report.columns[:email_customer].helper).to eq :customer_email_link
     end
 
   end
