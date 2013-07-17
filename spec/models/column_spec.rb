@@ -42,15 +42,15 @@ describe Reporta::Column do
     end
 
     it 'returns the value using a local method' do
-      project = stub(created_at: Date.new(2013, 01, 15))
+      project = double(created_at: Date.new(2013, 01, 15))
       expect(
         report.value_for(project, :formatted_date)
       ).to eq 'Jan 15, 2013'
     end
 
     it 'uses a chain of methods of fetch the value' do
-      customer = stub(name: 'World Co.')
-      project = stub(customer: customer, name: 'project')
+      customer = double(name: 'World Co.')
+      project = double(customer: customer, name: 'project')
       expect(report.value_for(project, :customer_name))
         .to eq 'World Co.'
     end
