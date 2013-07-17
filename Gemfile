@@ -1,4 +1,4 @@
-source "http://rubygems.railscamp.org"
+source "http://rubygems.org"
 
 # Declare your gem's dependencies in reporta.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
