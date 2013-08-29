@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class DummyReport
+class FilteredReport
   include Reporta::Filter
 
   filter :start_date, default: '2013-01-01'
@@ -10,12 +10,11 @@ class DummyReport
   filter :age, include_blank: false
   filter :be_blank_true
   filter :valid, collection: %w/true false/
-
 end
 
 describe Reporta::Filter do
   context 'with columns defined' do
-    subject(:report) { DummyReport.new }
+    subject(:report) { FilteredReport.new }
 
     it 'defaults to correct date' do
       expect(report.filters[:start_date].default).to eq '2013-01-01'
