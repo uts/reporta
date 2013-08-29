@@ -24,16 +24,6 @@ describe Reporta::Filter do
       expect(report.filters[:active].as).to eq :boolean
     end
 
-    it 'converts boolean "0" to false' do
-      report = DummyReport.new active: '0'
-      expect(report.active).to be_false
-    end
-
-    it 'converts boolean "1" to true' do
-      report = DummyReport.new active: '1'
-      expect(report.active).to be_true
-    end
-
     it 'requires columns to be set' do
       expect(report.filters[:employee_type].required).to eq true
     end
@@ -45,10 +35,6 @@ describe Reporta::Filter do
 
     it "allows collections to be set" do
       expect(report.filters[:valid].collection).to eq %w/true false/
-    end
-
-    it 'sets default values' do
-      expect(report.start_date).to eq '2013-01-01'
     end
   end
 end
