@@ -22,7 +22,7 @@ module Reporta
     private
 
     def filter_value(args, name)
-      val = if args[name].present?
+      if args[name].present?
         args[name]
       else
         filters[name.to_sym].default
