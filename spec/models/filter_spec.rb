@@ -28,12 +28,15 @@ describe Reporta::Filter do
       expect(report.filters[:employee_type].required).to eq true
     end
 
-    it "allows include_blank to bet set" do
+    it 'allows include_blank to bet set' do
       expect(report.filters[:age].include_blank).to eq false
+    end
+
+    it 'defaults include_blank to true' do
       expect(report.filters[:be_blank_true].include_blank).to eq true
     end
 
-    it "allows collections to be set" do
+    it 'allows collections to be set' do
       expect(report.filters[:valid].collection).to eq %w/true false/
     end
   end
