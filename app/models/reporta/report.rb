@@ -14,6 +14,10 @@ module Reporta
 
     private
 
+    # Delegate any undefined message to the @form object.
+    # This allows you to call `report.start_date` to get the value of the
+    # `start_date` filter or assign a value using
+    # `report.start_date = '2013-01-01'`
     def method_missing(*args, &block)
       self.form.send(*args, &block)
     end
