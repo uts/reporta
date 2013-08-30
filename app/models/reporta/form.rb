@@ -8,17 +8,20 @@ module Reporta
     validate do
       filters.each do |name, options|
         if options.required && send(name).blank?
+          # TODO: Allow for internationization of form validation errors
           errors.add(name, "required")
         end
       end
     end
 
-    def initialize(filters, values)
+    def initialize(filters, values={})
       @filters = filters
       self.class.send :attr_accessor, *filters.keys
       set_values filters, values
     end
 
+    # This method is required so a Form instance can be passed into a form_for
+    # helper method
     def persisted?
       false
     end
@@ -34,12 +37,13 @@ module Reporta
       end
     end
 
-    # TODO: Please fix me.
     def convert_boolean(value)
       if value == "0"
         false
       elsif value == "1"
         true
+      else
+        !!value
       end
     end
   end
