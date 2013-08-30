@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'date'
 
-class DummyReport
+class ColumReport
   include Reporta::Column
 
   column :name
@@ -12,18 +12,18 @@ class DummyReport
   column :email_customer, helper: :customer_email_link
 
   def formatted_date(project)
-    project.created_at.strftime("%b %d, %Y")
+    project.created_at.strftime('%b %d, %Y')
   end
 end
 
 describe Reporta::Column do
 
   it 'initializes columns' do
-    expect { DummyReport.column :name }.to_not raise_error
+    expect { ColumReport.column :name }.to_not raise_error
   end
 
   context 'with columns defined' do
-    subject(:report) { DummyReport.new }
+    subject(:report) { ColumReport.new }
 
     it 'defaults to the column name' do
       expect(report.columns[:full_name].title).to eq 'Full name'
