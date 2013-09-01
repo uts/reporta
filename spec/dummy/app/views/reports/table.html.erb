@@ -1,2 +1,11 @@
-<%= filters_for(@report) %>
-<%= table_for(@report, class_name: 'table') if @report.filter_applied? %>
+<h2>Basic Table</h2>
+<p>To output your report as a table you must define a method named <strong>rows</strong> and at least 1 <strong>column</strong> within you report class. This method should return an array (or other enumerable object) with each item representing a row in the table.</p>
+<p>The filtering form and the table below are output using the following 2 helpers.</p>
+<blockquote><%%= filters_for(@report) %><br />
+<%%= table_for(@report, class_name: 'table') %>
+</blockquote>
+<p>The class_name option sets the class of the generated table, here we are setting it to "table" so Bootstrap will add some basic styling</p>
+<div class="filters">
+  <%= filters_for(@report) %>
+</div>
+<%= table_for(@report, class_name: 'table') %>

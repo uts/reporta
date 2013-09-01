@@ -1,2 +1,32 @@
-<%= filters_for(@report) %>
-<%= table_for(@report, class_name: 'table dynamic') if @report.filter_applied? %>
+<h2>Dynamic Table</h2>
+<p>To create a table with client side pagination, inline filtering and other dynamic goodies you first need to include some Javascript files. The Reporta dynamic tables use <%= link_to 'DataTables', 'http://datatables.net/index' %> under the hood so anything you can do with DataTables you can do here as well.</p>
+<p>If you don't already have it you will need a copy of <%= link_to 'jQuery', 'http://jquery.com/' %> and <%= link_to 'DataTables', 'http://datatables.net/download/' %> in your app/assets/javascripts directory</p>
+<p>In your application.js file make sure you have the following lines in this order:</p>
+<blockquote>#= require jquery<br/>
+#= require jquery.dataTables<br/>
+#= require reporta/dataTables
+</blockquote>
+<p>Now the dependencies are loaded we can display the report below like this:</p>
+<blockquote><%%= filters_for(@report) %><br />
+<%%= table_for(@report, class_name: 'table') %><br />
+&lt;script type="text/javascript" charset="utf-8"&gt;<br />
+&#160;&#160;$(function() {<br />
+&#160;&#160;&#160;&#160;new Reporta.DynamicTable('.table');<br />
+&#160;&#160;});<br />
+&lt;/script&gt;<br />
+</blockquote>
+<p>The only difference between this and the <%= link_to 'Basic Table', '/table' %> is we added the extra Javascript that is called after the page is loaded to make the table dynamic.</p>
+<p><strong>Note:</strong> As we are using Bootstrap here on the demo page the styling below is not quite right. It should look more like a deafult DataTable on your page. If you are using Bootstrap checkout the <%= link_to 'Dynamic Table With Bootstrap', '/dynamic_table_with_bootstrap' %> page.</p>
+
+<div class="filters">
+  <%= filters_for(@report) %>
+</div>
+<div class="no-bootstap">
+  <%= table_for(@report, class_name: 'table') %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    new Reporta.DynamicTable('.table');
+  });
+</script>

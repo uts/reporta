@@ -1,5 +1,15 @@
 body { padding: 20px 0; }
 .highlight { background: rgb(255, 255, 187); }
+.filters {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: rgb(243, 243, 243);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.no-bootstap select { width: auto; }
 
 /* The .bs-docs-sidenav styles a lovingly stolen from the Bootstrap demo site. */
 .bs-docs-sidenav {

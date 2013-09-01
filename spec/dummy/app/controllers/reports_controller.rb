@@ -8,4 +8,8 @@ class ReportsController < ApplicationController
     @report = ProjectReport.new(params[:form])
   end
 
+  def dynamic_table_with_bootstrap
+    @report = ProjectReport.new(params[:form])
+  end
+
 end

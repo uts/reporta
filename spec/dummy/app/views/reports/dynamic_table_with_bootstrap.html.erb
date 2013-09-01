@@ -1,0 +1,36 @@
+<%= content_for :head do %>
+  <%= javascript_include_tag "reporta/dataTables.bootstrap" %>
+<% end %>
+
+<h2>Dynamic Table with Bootstrap</h2>
+<p>To get the data table looking nice with Bootstrap there is a few things that need to happen. First we need to make sure the following in you application.js file (note the extra dataTables.bootstrap file)</p>
+<blockquote>#= require jquery<br />
+#= require jquery.dataTables<br />
+#= require reporta/dataTables<br />
+#= require reporta/dataTables.bootstrap<br />
+</blockquote>
+<p>Now you can display the report like this:</p>
+<blockquote><%%= filters_for(@report) %><br />
+<%%= table_for(@report, class_name: 'table') %><br />
+&lt;script type="text/javascript" charset="utf-8"&gt;<br />
+&#160;&#160;$(function() {<br />
+&#160;&#160;&#160;&#160;new Reporta.DynamicTable('.table.dynamic', { bootstrap: true });<br />
+&#160;&#160;});<br />
+&lt;/script&gt;<br />
+</blockquote>
+<p>The only difference between this and the <%= link_to 'Dynamic Table', '/dynamic_table'  %> example is the extra Javascript file and passing bootstrap: true to Reporta.DynamicTable.</p>
+<div class="filters">
+  <%= filters_for(@report) %>
+</div>
+<div class="no-bootstap">
+  <%= table_for(@report, class_name: 'table dynamic') %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    new Reporta.DynamicTable('.table.dynamic', {
+      bootstrap: true
+    });
+  });
+</script>
+
