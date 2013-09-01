@@ -1,0 +1,2 @@
+<%= filters_for(@report) %>
+<%= table_for(@report, class_name: 'table dynamic') if @report.filter_applied? %>
