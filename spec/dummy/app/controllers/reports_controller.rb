@@ -1,8 +1,11 @@
 class ReportsController < ApplicationController
 
-  def index
+  def table
     @report = ProjectReport.new(params[:form])
-    render :index
+  end
+
+  def dynamic_table
+    @report = ProjectReport.new(params[:form])
   end
 
 end

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
-  root to: "reports#index"
-  match '/', to: 'reports#index', via: [:get, :post]
+  root to: "reports#table"
+  match '/', to: 'reports#table', via: :post
+
+  %w(table dynamic_table).each do |action|
+    match "/#{action}", to: "reports##{action}", via: [:get, :post]
+  end
 end
