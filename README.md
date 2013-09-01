@@ -22,7 +22,7 @@ class ProjectReport
   column :name
   column :created_at
 
-  def records
+  def rows
     Project.where(created_at: start_date..finish_date)
   end
 end
@@ -69,15 +69,15 @@ Reporta is made up of a few components that you can pull together to display you
 
 At the heart of Reporta is the report definition, this is where you get to define what data will be displayed, where that data comes from and how to filter it down.
 
-#### Records Method
+#### Rows Method
 
-As a very minimum you need to define the `records` method which will return the records that are displayed in the report. In this example we are creating a report that will display all projects in the database.
+As a very minimum you need to define the `rows` method which will return the rows that are displayed in the report. In this example we are creating a report that will display all projects in the database.
 
 ```ruby
 class ProjectReport
   include Reporta::Report
 
-  def records
+  def rows
     Project.all
   end
 end
@@ -85,7 +85,7 @@ end
 
 #### Filters
 
-Often you will want the records returned by the report to be filter by a certain criteria. Let's create filter our report by a date range any also by a project status field.
+Often you will want the row returned by the report to be filter by a certain criteria. Let's create filter our report by a date range any also by a project status field.
 
 ```ruby
 class ProjectReport
@@ -96,7 +96,7 @@ class ProjectReport
   filter :status, collection: Status.all, include_blank: false
   filter :exclude_deleted, as: :boolean, default: false
 
-  def records
+  def rows
     projects = Project.where(created_at: start_date..finish_date)
       .where(status: status)
     projects = projects.where(deleted_at: nil) if exclude_deleted
@@ -117,7 +117,7 @@ As you can see above once you have defined a filter you will have access to the 
 
 #### Columns
 
-When is comes to displaying the report you will generally want to display a subset of data from the records, custom calculations or maybe some associated data. Here's a quick example of defining a variety of columns.
+When is comes to displaying the report you will generally want to display a subset of data from the rows, custom calculations or maybe some associated data. Here's a quick example of defining a variety of columns.
 
 ```ruby
 class ProjectReport
@@ -128,7 +128,7 @@ class ProjectReport
   column :manager, data_chain: 'manager.full_name'
   column :cost, class_names: 'sum currency'
 
-  def records
+  def rows
     Projects.all
   end
 
@@ -183,7 +183,7 @@ Or for more detailed control you can build the table yourself.
     </tr>
   </thead>
   <tbody>
-    <% @report.records.each do |record| %>
+    <% @report.rows.each do |record| %>
       <tr>
         <% @report.columns.each do |column| %>
           <th class="#{column.class_names}">
