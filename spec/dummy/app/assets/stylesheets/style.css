@@ -14,7 +14,7 @@ body { padding: 20px 0; }
 /* The .bs-docs-sidenav styles a lovingly stolen from the Bootstrap demo site. */
 .bs-docs-sidenav {
   width: 228px;
-  margin: 0;
+  margin: 20px 0 0 0;;
   padding: 0;
   background-color: #fff;
   -webkit-border-radius: 6px;

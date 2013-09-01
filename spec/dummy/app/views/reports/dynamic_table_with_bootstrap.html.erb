@@ -2,7 +2,7 @@
   <%= javascript_include_tag "reporta/dataTables.bootstrap" %>
 <% end %>
 
-<h2>Dynamic Table with Bootstrap</h2>
+<h2>Dynamic Table With Bootstrap</h2>
 <p>To get the data table looking nice with Bootstrap there is a few things that need to happen. First we need to make sure the following in you application.js file (note the extra dataTables.bootstrap file)</p>
 <blockquote>#= require jquery<br />
 #= require jquery.dataTables<br />
@@ -19,6 +19,7 @@
 &lt;/script&gt;<br />
 </blockquote>
 <p>The only difference between this and the <%= link_to 'Dynamic Table', '/dynamic_table'  %> example is the extra Javascript file and passing bootstrap: true to Reporta.DynamicTable.</p>
+<h3>Example</h3>
 <div class="filters">
   <%= filters_for(@report) %>
 </div>
