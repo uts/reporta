@@ -9,6 +9,7 @@ config/database.yml
 /log/*.log
 /spec/dummy/log/*.log
 /spec/dummy/db/*.sqlite3
+/spec/dummy/tmp/*
 /tmp
 
 public/assets/**/*
