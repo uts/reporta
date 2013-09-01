@@ -1,27 +1,30 @@
 <%= form_for report.form, url: request.path do |f| %>
+  <fieldset>
+    <% report.filters.each do |name, options| %>
+      <% label_name = "#{name.to_s.humanize} #{'*' if options.required}" %>
 
-  <% report.filters.each do |name, options| %>
-    <div>
-      <% if options.required %>
-        <span class='required'>*</span>
-      <% end %>
-      <%= f.label name %>
-
-      <%# TODO: FIX ME - not so many ifs %>
-      <%#= f.input_value_field %>
-
+      <%#Collection field%>
       <% if options.collection %>
-        <%= f.select name, options_for_select(options.collection, f.object.send(name)), prompt: options.include_blank %>
+        <label><%= f.label name, label_name %></label>
+        <%= f.select name, options_for_select(options.collection, f.object.send(name)), { prompt: options.include_blank }, required: options.required %>
+
+      <%#Boolean field%>
       <% elsif options.boolean? %>
-        <%= f.check_box name %>
+        <label class='checkbox'>
+          <%= f.check_box name %>
+          <%= f.label name, label_name %>
+        </label>
+
+      <%#Text field%>
       <% else %>
-        <%= f.text_field name %>
+        <label><%= f.label name, label_name %></label>
+        <%= f.text_field name, required: options.required  %>
       <% end %>
+
       <% if report.form.errors[name].any? %>
         <%= report.form.errors[name].to_sentence %>
       <% end %>
-    </div>
-  <% end %>
-
-  <%= f.submit 'Run report' %>
+    <% end %>
+    <%= f.button 'Run report', class: 'btn' %>
+  </fieldset>
 <% end %>
