@@ -1,2 +1,2 @@
 <%= filters_for(@report) %>
-<%= table_for(@report) %>
+<%= table_for(@report) if @report.filter_applied? %>

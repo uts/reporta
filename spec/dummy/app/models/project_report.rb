@@ -1,9 +1,9 @@
 class ProjectReport
   include Reporta::Report
 
-  filter :first_name, default: "Garrett"
-  filter :age, required: true
-  filter :gender, collection: %w/MALE FEMALE/, include_blank: false
+  filter :first_name
+  filter :age
+  filter :gender, collection: %w(MALE FEMALE), include_blank: false
   filter :active, as: :boolean
 
   column :first_name, helper: :mailto
@@ -18,7 +18,7 @@ class ProjectReport
     User.where(gender: gender)
       .where(age: age)
       .where(active: active)
-      .where(first_name: first_name.downcase)
+      .where(first_name: first_name.to_s.downcase)
   end
 
   def created(user)

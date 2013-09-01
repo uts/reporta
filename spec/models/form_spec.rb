@@ -34,6 +34,18 @@ describe Reporta::Form do
     expect(form.errors[:name].to_s).to match /required/
   end
 
+  describe 'filters_applied?' do
+    it 'is false when no values are initialized' do
+      form = Reporta::Form.new filters
+      expect(form.filter_applied?).to be_false
+    end
+
+    it 'is true when one or more values are initialized' do
+      form = Reporta::Form.new filters, active: true
+      expect(form.filter_applied?).to be_true
+    end
+  end
+
   context 'with boolean filter' do
     it 'converts boolean "0" to false' do
       form = Reporta::Form.new filters, active: '0'

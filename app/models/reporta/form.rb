@@ -3,7 +3,7 @@ module Reporta
     include ActiveModel::Validations
     include ActiveModel::Conversion
 
-    attr_accessor :filters
+    attr_accessor :filters, :filter_applied
 
     validate do
       filters.each do |name, options|
@@ -17,7 +17,12 @@ module Reporta
     def initialize(filters, values={})
       @filters = filters
       self.class.send :attr_accessor, *filters.keys
+      self.filter_applied = values.any?
       set_values filters, values
+    end
+
+    def filter_applied?
+      self.filter_applied
     end
 
     # This method is required so a Form instance can be passed into a form_for
