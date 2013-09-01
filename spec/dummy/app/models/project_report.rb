@@ -14,7 +14,7 @@ class ProjectReport
   column :account, data_chain: 'account.name'
   column :created
 
-  def records
+  def rows
     users = User.where(active: active)
 
     # Filter by substring match on first_name

@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% report.records.each do |record| %>
+    <% report.rows.each do |record| %>
       <tr>
         <% report.columns.each do |name, column| %>
           <td class="<%= column.class_names %>">
