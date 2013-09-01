@@ -3,7 +3,7 @@ class ProjectReport
 
   filter :first_name
   filter :age
-  filter :gender, collection: %w(MALE FEMALE), include_blank: false
+  filter :gender, collection: %w(Any Male Female), include_blank: false
   filter :active, as: :boolean
 
   column :first_name, helper: :mailto
@@ -15,10 +15,22 @@ class ProjectReport
   column :created
 
   def records
-    User.where(gender: gender)
-      .where(age: age)
-      .where(active: active)
-      .where(first_name: first_name.to_s.downcase)
+    users = User.where(active: active)
+
+    # Filter by substring match on first_name
+    if first_name.present?
+      users = users.where("LOWER(users.first_name) LIKE '%#{first_name.downcase}%'")
+    end
+
+    # Filter by selecte age
+    users = users.where(age: age) if age.present?
+
+    # Filter by gender unless the 'Any' option is selected
+    if gender.present? && gender != 'Any'
+      users = users.where(gender: gender)
+    end
+
+    users
   end
 
   def created(user)
