@@ -35,13 +35,19 @@ class ChartReport
 end
 
 describe Reporta::Chart do
-  it 'can be initialized' do
-    expect { ChartReport.new }.not_to raise_error
-  end
-
-  it 'has an x and y axis' do
+  it 'has an x and y axis with sensible titles' do
     report = ChartReport.new
     expect(report.x_axis.title).to eq 'Months'
     expect(report.y_axis.title).to eq 'Total Accounts'
+  end
+
+  it 'has line charts' do
+    report = ChartReport.new
+    expect(report.line_charts[:sign_ups].title).to eq 'Sign ups'
+  end
+
+  it 'has columns charts' do
+    report = ChartReport.new
+    expect(report.column_charts[:average_age].title).to eq 'Average age'
   end
 end

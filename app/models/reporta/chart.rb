@@ -5,7 +5,9 @@ module Reporta
     extend ActiveSupport::Concern
 
     included do
-      cattr_accessor :x_axis_options, :y_axis_options
+      cattr_accessor :x_axis_options, :y_axis_options, :line_charts, :column_charts
+      self.line_charts = {}
+      self.column_charts = {}
     end
 
     module ClassMethods
@@ -20,9 +22,13 @@ module Reporta
       end
 
       def line_chart(name, options={})
+        title = (options[:title] || name).to_s.humanize
+        self.line_charts[name] = OpenStruct.new options.reverse_merge(title: title)
       end
 
       def column_chart(name, options={})
+        title = (options[:title] || name).to_s.humanize
+        self.column_charts[name] = OpenStruct.new options.reverse_merge(title: title)
       end
     end
 
@@ -33,5 +39,6 @@ module Reporta
     def y_axis
       y_axis_options
     end
+
   end
 end
