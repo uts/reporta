@@ -7,7 +7,7 @@ accounts = []
 end
 
 100.times do |n|
-  User.create!(
+  user = User.create!(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     age: rand(18..95),
@@ -15,4 +15,6 @@ end
     active: [true, false].sample,
     account: accounts.sample
   )
+  user.created_at = Date.new(Date.today.year, rand(1..12))
+  user.save!
 end

@@ -13,3 +13,5 @@
 //= require jquery
 //= require jquery.dataTables
 //= require reporta/dataTables
+//= require jquery.flot
+//= require jquery.flot.time

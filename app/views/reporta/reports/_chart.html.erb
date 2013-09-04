@@ -1,0 +1,10 @@
+<div id="reporta_chart_<%= report.id %>" class="chart"></div>
+
+<script type="text/javascript" charset="utf-8">
+  $.plot($(".chart"), [<%= raw report.series_for(:sign_ups) %>], {
+    xaxis: {
+      mode: "time",
+      timeformat: "%Y-%m-%d"
+    }
+  });
+</script>

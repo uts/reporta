@@ -10,26 +10,21 @@ class ChartReport
   column_chart :average_age
 
   def months
-    @months ||= (1..12).map { |month| Date.new(Date.today.year, month) }
+    @months ||= (1..12).map { |month| Date.new(2013, month) }
   end
 
   def sign_ups(month)
     accounts_by_month[month].size
   end
 
-  def average_age(month)
-    accounts = accounts_by_month[month]
-    accounts.sum(&:age) / accounts.size
-  end
-
   private
 
   def accounts_by_month
-    @accounts_by_month ||= begin
-      Account.all.group_by do |account|
-        account.created_at.beginning_of_month
-      end
-    end
+    {
+      Date.new(2013, 01) => ['Joe', 'Mary', 'Steve'],
+      Date.new(2013, 02) => ['Dave', 'Sarah'],
+      Date.new(2013, 03) => ['Jerry'],
+    }
   end
 
 end
@@ -49,5 +44,11 @@ describe Reporta::Chart do
   it 'has columns charts' do
     report = ChartReport.new
     expect(report.column_charts[:average_age].title).to eq 'Average age'
+  end
+
+  it 'returns a series of values for a line chart' do
+    report = ChartReport.new
+    series = [3, 2, 1]
+    expect(report.series_for(:sign_ups)).to eq series
   end
 end

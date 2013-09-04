@@ -13,7 +13,10 @@ module Reporta
     module ClassMethods
       def x_axis(name, options={})
         title = (options[:title] || name).to_s.humanize
-        self.x_axis_options = OpenStruct.new options.reverse_merge(title: title)
+        self.x_axis_options = OpenStruct.new options.reverse_merge(
+          name: name,
+          title: title
+        )
       end
 
       def y_axis(name, options={})
@@ -38,6 +41,12 @@ module Reporta
 
     def y_axis
       y_axis_options
+    end
+
+    def series_for(name)
+      self.send(x_axis.name).map do |x|
+        self.send(name, x)
+      end
     end
 
   end

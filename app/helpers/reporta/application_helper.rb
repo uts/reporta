@@ -9,5 +9,9 @@ module Reporta
       locals.reverse_merge!(report: report, class_name: '')
       render partial: "reporta/reports/table", locals: locals
     end
+
+    def chart_for(report, locals={})
+      render partial: "reporta/reports/chart", locals: { report: report }
+    end
   end
 end

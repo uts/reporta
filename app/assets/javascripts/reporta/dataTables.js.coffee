@@ -15,5 +15,4 @@ class Reporta.DynamicTable
       delete @options.bootstrap
       @options = $.extend @options, bootstrapOptions
 
-    console.log 'dataTable options', @options
     @table.dataTable @options

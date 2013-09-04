@@ -12,4 +12,8 @@ class ReportsController < ApplicationController
     @report = ProjectReport.new(params[:form])
   end
 
+  def chart
+    @report = AccountChart.new(params[:form])
+  end
+
 end

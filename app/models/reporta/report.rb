@@ -3,6 +3,7 @@ module Reporta
     extend ActiveSupport::Concern
     include Filter
     include Column
+    include Chart
 
     attr_accessor :form
 
@@ -10,6 +11,10 @@ module Reporta
       args ||= {}
       @form = Reporta::Form.new filters, args
       form.valid? if args.present?
+    end
+
+    def id
+      self.class.name.underscore
     end
 
     private
