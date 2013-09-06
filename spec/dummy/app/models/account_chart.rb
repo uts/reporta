@@ -3,7 +3,7 @@ class AccountChart
 
   filter :gender, collection: %w(Any Male Female), include_blank: false
 
-  x_axis :months
+  x_axis :months, as: :date, format: "%Y-%m-%d"
   y_axis :accounts, title: 'Total Accounts'
 
   line_chart :sign_ups

@@ -1,10 +1,6 @@
-<div id="reporta_chart_<%= report.id %>" class="chart"></div>
+<%- report_id = "reporta_chart_#{report.id}" %>
+<div id="<%= report_id %>" class="chart"></div>
 
 <script type="text/javascript" charset="utf-8">
-  $.plot($(".chart"), [<%= raw report.series_for(:sign_ups) %>], {
-    xaxis: {
-      mode: "time",
-      timeformat: "%Y-%m-%d"
-    }
-  });
+  new Reporta.Chart("#<%= report_id %>", <%= raw report.data %>, <%= raw report.options %>);
 </script>

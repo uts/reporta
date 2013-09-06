@@ -49,5 +49,25 @@ module Reporta
       end
     end
 
+    def data
+      result = []
+      line_charts.each do |name, options|
+        result << {
+          label: name.to_s.humanize,
+          data: series_for(name)
+        }
+      end
+      result.to_json
+    end
+
+    def options
+      {
+        xaxis: {
+          mode: (x_axis.as == :date ? 'time' : nil),
+          timeformat: (x_axis.as == :date ? x_axis.format : nil),
+        }
+      }.to_json
+    end
+
   end
 end

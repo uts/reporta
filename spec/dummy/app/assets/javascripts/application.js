@@ -15,3 +15,4 @@
 //= require reporta/dataTables
 //= require jquery.flot
 //= require jquery.flot.time
+//= require reporta/flot
