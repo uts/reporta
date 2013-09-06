@@ -28,7 +28,9 @@ class AccountChart
   def accounts_by_month
     @accounts_by_month ||= begin
       users = User.all
-      users = users.where(gender: gender) unless gender == 'Any'
+      if gender.present? && gender != 'Any'
+        users = users.where(gender: gender)
+      end
       users.group_by do |account|
         account.created_at.beginning_of_month.to_date
       end
