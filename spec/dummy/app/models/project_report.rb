@@ -1,4 +1,4 @@
-class ProjectReport
+class AccountReport
   include Reporta::Report
 
   filter :first_name
