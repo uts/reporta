@@ -15,5 +15,4 @@ class ReportsController < ApplicationController
   def chart
     @report = AccountChart.new(params[:form])
   end
-
 end
