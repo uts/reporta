@@ -52,10 +52,18 @@ module Reporta
     def data
       result = []
       line_charts.each do |name, options|
-        result << {
-          label: name.to_s.humanize,
-          data: series_for(name)
-        }
+        result << common_data(name, options).reverse_merge(
+          lines: { show: true }
+        )
+      end
+      column_charts.each do |name, options|
+        result << common_data(name, options).reverse_merge(
+          bars: {
+            show: true,
+            lineWidth: (options.line_width || 10),
+            align: (options.align || 'left')
+          }
+        )
       end
       result.to_json
     end
@@ -69,5 +77,22 @@ module Reporta
       }.to_json
     end
 
+    private
+
+    # This is the data that is common to all series regarless of what type it is
+    # Commented out options are availabe in Flot but not implemented in Reporta
+    def common_data(name, options)
+      {
+        # color: color or number
+        label: name.to_s.humanize,
+        data: series_for(name)
+        # xaxis: number
+        # yaxis: number
+        # clickable: boolean
+        # hoverable: boolean
+        # shadowSize: number
+        # highlightColor: color or number
+      }
+    end
   end
 end

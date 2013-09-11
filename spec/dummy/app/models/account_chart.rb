@@ -7,7 +7,7 @@ class AccountChart
   y_axis :accounts, title: 'Total Accounts'
 
   line_chart :sign_ups
-  column_chart :average_age
+  column_chart :average_age, line_width: 20, align: :left
 
   def months
     @months ||= (1..12).map { |month| Date.new(Date.today.year, month) }
@@ -19,8 +19,9 @@ class AccountChart
   end
 
   def average_age(month)
-    accounts = accounts_by_month[month]
-    accounts.sum(&:age) / accounts.size
+    accounts = accounts_by_month[month.to_date]
+    average = accounts.sum(&:age) / accounts.size
+    [month.to_time.to_i * 1000, average]
   end
 
   private
