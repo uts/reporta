@@ -1,5 +1,5 @@
 module Reporta
-  module ApplicationHelper
+  module ViewHelper
 
     def filters_for(report)
       render partial: "reporta/reports/filters", locals: { report: report }
