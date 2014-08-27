@@ -3,7 +3,7 @@ module Reporta
     include ActiveModel::Validations
     include ActiveModel::Conversion
 
-    attr_accessor :filters, :filter_applied
+    attr_accessor :filters, :filter_applied, :params
 
     validate do
       filters.each do |name, options|
@@ -16,6 +16,7 @@ module Reporta
 
     def initialize(filters, values={})
       @filters = filters
+      @params = values
       self.class.send :attr_accessor, *filters.keys
       self.filter_applied = values.any?
       set_values filters, values
