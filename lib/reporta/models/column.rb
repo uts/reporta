@@ -12,8 +12,7 @@ module Reporta
     module ClassMethods
       def column(name, options={})
         columns[name] = OpenStruct.new options.reverse_merge(
-          title: name.to_s.humanize,
-          class_names: ''
+          title: name.to_s.humanize
         )
       end
     end
