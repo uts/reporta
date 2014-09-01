@@ -9,7 +9,6 @@ module Reporta
   autoload :Column, 'reporta/models/column'
 
   autoload :Report, 'reporta/models/report'  
-  autoload :Whereable, 'reporta/models/whereable'  
 
   autoload :Chart, 'reporta/models/chart'
   
