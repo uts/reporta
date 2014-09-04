@@ -1,35 +1,42 @@
-# Reporta Modules
+<!--  
+Copyright 2013-2014 University of Technology, Sydney (github.com/uts)
 
-__reporta-modules__ is a Rails gem packed with modules and helpers to help you build your reports. 
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-It is also a fork from the original [__reporta__](github.com/uts/reporta) Rails engine gem. 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-## Installation
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ -->
+# Reporta
 
-Add Reporta to your Gemfile
+Reporta is a Ruby on Rails gem designed to make defining and displaying basic reports as simple as possible.
 
-```ruby
-gem 'reporta-modules'
-```
+## Compatibility
 
-Generate default view templates in your project  
-`$ rails generate reporta:views` 
-
-Turn any plain Ruby class into a Reporta class by including `Reporta::Reportable`
-
-```ruby
-class YourReport
-  include Reporta::Reportable
-end
-```
+* Rails 3.x compatible
 
 ## Basic Example
 
-### View Model
+The basic example will be creating a report to list projects that were created during a specified date range.
+
+### Model
 
 ```ruby
 class ProjectReport
-  include Reporta::Reportable
+  include Reporta::Report
 
   filter :start_date, default: '2013-01-01', required: true
   filter :finish_date, default: '2013-12-13', required: true
@@ -48,7 +55,7 @@ end
 ```ruby
 class ProjectReportsController < ApplicationController
   def show
-    @report = ProjectsReport.new(params[:reporta_form])
+    @report = ProjectsReport.new(params[:form])
   end
 end
 ```
@@ -60,31 +67,58 @@ end
 <%= table_for @report %>
 ```
 
+## Installation
 
+Add Reporta to your Gemfile
 
-## Reporta Modules
+```ruby
+gem 'reporta'
+```
 
-### Reporta::Reportable
+Turn any plain Ruby class into a Reporta class by including `Reporta::Report`
 
-`Reporta::Reportable` module added some DSL for your covenience to create your report's [__view model/object__](http://blog.codeclimate.com/blog/2012/10/17/7-ways-to-decompose-fat-activerecord-models/).
+```ruby
+class YourReport
+  include Reporta::Report
+end
+```
 
-#### Filters
+## Usage
 
-Report are normally generated based on some filter or a certain criteria.  
-For example: 
+Reporta is made up of a few components that you can pull together to display your data in a variety of different ways. The major components are the report controller, class definition, view helpers, stylesheets and javascript.
+
+### Report Definition
+
+At the heart of Reporta is the report definition, this is where you get to define what data will be displayed, where that data comes from and how to filter it down.
+
+#### Rows Method
+
+As a very minimum you need to define the `rows` method which will return the rows that are displayed in the report. In this example we are creating a report that will display all projects in the database.
 
 ```ruby
 class ProjectReport
-  include Reporta::Reportable
+  include Reporta::Report
 
-  filter :start_date, as: :date, default: '2013-01-01', required: true 
-  filter :finish_date, as: :date, default: '2013-12-31', required: true
+  def rows
+    Project.all
+  end
+end
+```
+
+#### Filters
+
+Often you will want the row returned by the report to be filter by a certain criteria. Let's create filter our report by a date range any also by a project status field.
+
+```ruby
+class ProjectReport
+  include Reporta::Report
+
+  filter :start_date, default: '2013-01-01', required: true
+  filter :finish_date, default: '2013-12-31', required: true
   filter :status, collection: Status.all, include_blank: false
   filter :exclude_deleted, as: :boolean, default: false
-  
-  # required method
-  def rows 
-    # use filters above to manipulate the results
+
+  def rows
     projects = Project.where(created_at: start_date..finish_date)
       .where(status: status)
     projects = projects.where(deleted_at: nil) if exclude_deleted
@@ -93,14 +127,15 @@ class ProjectReport
 end
 ```
 
+As you can see above once you have defined a filter you will have access to the filter's value by calling a method using the same name as the filter. So if you define a filter named `:start_date` you can then access the value using the `start_date` accessor method.
+
 **Filter Options**
 
 * `required` - set to `true` to force a field to be set. Defaults to `false`.
 * `collection` - setting a collection will force the filter to render as a select input.
 * `include_blank` - only has an affect if a collection is set. defaults to `true`.
-* `as` - set the type of field to render. Available values are `:boolean`, `:string`, `:check_boxes`, `:radio`, `:date`. Defaults to `:string`.
+* `as` - set the type of field to render. Available values are `:boolean`, `:string`, `:check_boxes`, `:radio`. Defaults to `:string`.
 * `default` - set the default value for the filter.
-* `label` - set the label of display
 
 #### Columns
 
@@ -108,7 +143,7 @@ When is comes to displaying the report you will generally want to display a subs
 
 ```ruby
 class ProjectReport
-  include Reporta::Reportable
+  include Reporta::Report
 
   column :name
   column :formatted_date, title: 'Created at'
@@ -130,24 +165,8 @@ end
 * `title` - set a custom title for the colum. Defaults to the column name
 * `data_chain` - provide a chain of methods to call in order to fetch the data.
 * `class_names` - these classes will be applied to the column to allow for custom styling or Javascript hooks.
-* `helper` - format your column
 
-### Required Methods
-
-As a very minimum you need to define the `rows` method which will return the rows that are displayed in the report. 
-
-```ruby
-class ProjectReport
-  include Reporta::Reportable
-
-  def rows
-    Project.all
-  end
-end
-```
-
-
-#### Default View Templates
+#### Views
 
 In order to render the results of your report there are a variety of different ways to access and display the data. If you have any filters defined you will probably want to display a form for the user to enter parameters into.
 
@@ -199,5 +218,3 @@ Or for more detailed control you can build the table yourself.
 </table>
 ```
 
-## License  
-see MIT-LICENSE 

@@ -1,0 +1,19 @@
+<div class="col-md-6">
+  <canvas id="<%=prefix.to_s.camelize %>PieChart" ></canvas>
+</div>
+<div class="col-md-6">
+  <div id="<%=prefix.to_s.camelize%>PieChartLegend"></div>
+</div>
+<% chart = chart_pie_from_rows(rows, x, y) %>
+<% content_for :script do %>
+$(function(){
+  "use strict";
+
+  var data = <%=raw chart[:datasets] %>;
+  var ctx = document.getElementById("<%=prefix.to_s.camelize %>PieChart").getContext("2d");
+  var chart = new Chart(ctx).Pie(data, {responsive: true});
+  $('#<%=prefix.to_s.camelize %>PieChartLegend').html(chart.generateLegend());
+  <%= yield :chartjs_script %>  
+});
+<% end %>
+

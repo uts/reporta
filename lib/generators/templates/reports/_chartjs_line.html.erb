@@ -1,0 +1,33 @@
+<canvas id="<%=prefix.to_s.camelize %>LineChart"></canvas>
+<% content_for :script do %>
+  
+// uses JQuery
+$(function(){
+  "use strict";
+
+  var data = {
+    labels : <%=raw labels_from_rows(rows, x).to_json %>,
+    datasets : [
+    <% y = [y] if !y.is_a?(Array) %>
+    <% lines = y.map do |k| 
+      "{
+        fillColor : '#{color}',
+        strokeColor : '#{color}',
+        pointColor : '#{color}',
+        pointStrokeColor : '#fff',
+        data : #{raw decimals_from_rows(rows, x, k).to_json}
+      }"
+    end.join(',') %>
+    <%=raw lines %>
+    ]
+  };
+
+  var ctx = document.getElementById("<%=prefix.to_s.camelize %>LineChart").getContext("2d");
+  
+  // uses Chartjs
+  var chart = new Chart(ctx).Line(data, {responsive: true});
+  <%= yield :chartjs_script %>  
+});
+
+<% end %>
+

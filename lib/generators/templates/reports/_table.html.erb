@@ -1,4 +1,5 @@
-Copyright 2014 Alvin S.J. Ng 
+<!-- 
+Copyright 2013-2014 University of Technology, Sydney (github.com/uts)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -17,4 +18,32 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+-->
+
+<table class="<%= class_name %>">
+  <thead>
+    <tr>
+      <% report.columns.each do |name, column| %>
+        <th class="<%= column.class_names %>">
+          <%= column.title %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% report.rows.each do |record| %>
+      <tr>
+        <% report.columns.each do |name, column| %>
+          <td class="<%= column.class_names %>">
+            <% if column.helper %>
+              <%= send(column.helper, record) %>
+            <% else %>
+              <%= report.value_for(record, name) %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
