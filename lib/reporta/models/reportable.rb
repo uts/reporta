@@ -1,9 +1,8 @@
 module Reporta
-  module Report
+  module Reportable
     extend ActiveSupport::Concern
     include Filter
     include Column
-    include Chart
 
     attr_accessor :form
 

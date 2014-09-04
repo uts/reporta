@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 class BaseReport
-  include Reporta::Report
+  include Reporta::Reportable
 
   filter :active, as: :boolean
   filter :start_date
 end
 
-describe Reporta::Report do
+describe Reporta::Reportable do
   it 'can be initialized' do
     expect { BaseReport.new }.to_not raise_error
   end

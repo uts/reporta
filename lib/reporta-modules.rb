@@ -7,10 +7,7 @@ module Reporta
   autoload :Form, 'reporta/models/form'
   autoload :Filter, 'reporta/models/filter'
   autoload :Column, 'reporta/models/column'
-
-  autoload :Report, 'reporta/models/report'  
-
-  autoload :Chart, 'reporta/models/chart'
+  autoload :Reportable, 'reporta/models/reportable'  
   
   autoload :ViewHelper, 'reporta/view_helper'
   autoload :ChartjsHelper, 'reporta/chartjs_helper'

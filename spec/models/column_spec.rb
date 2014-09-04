@@ -5,7 +5,7 @@ class ColumReport
   include Reporta::Column
 
   column :name
-  column :full_name, class_names: 'foo bar'
+  column :full_name
   column :date, title: 'Completed at'
   column :formatted_date
   column :customer_name, data_chain: 'customer.name'
@@ -32,15 +32,7 @@ describe Reporta::Column do
     it 'sets a custom title' do
       expect(report.columns[:date].title).to eq 'Completed at'
     end
-
-    it 'defaults class names to an empty string' do
-      expect(report.columns[:name].class_names).to eq ''
-    end
-
-    it 'sets custom class names' do
-      expect(report.columns[:full_name].class_names).to eq 'foo bar'
-    end
-
+    
     it 'returns the value using a local method' do
       project = double created_at: Date.new(2013, 01, 15)
       expect(
