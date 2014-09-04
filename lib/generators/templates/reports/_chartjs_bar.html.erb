@@ -1,10 +1,8 @@
-<canvas id="<%=prefix.to_s.camelize %>LineChart"></canvas>
+<canvas id="<%=prefix.to_s.camelize %>BarChart"></canvas>
 <% content_for :script do %>
-  
 // uses JQuery
 $(function(){
   "use strict";
-
   var data = {
     labels : <%=raw labels_from_rows(rows, x).to_json %>,
     datasets : [
@@ -22,10 +20,10 @@ $(function(){
     ]
   };
 
-  var ctx = document.getElementById("<%=prefix.to_s.camelize %>LineChart").getContext("2d");
+  var ctx = document.getElementById("<%=prefix.to_s.camelize %>BarChart").getContext("2d");
   
   // uses Chartjs
-  var chart = new Chart(ctx).Line(data, {responsive: true});
+  var chart = new Chart(ctx).Bar(data, {responsive: true});
   <%= yield :chartjs_script %>  
 });
 
